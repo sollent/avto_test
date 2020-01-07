@@ -21,45 +21,51 @@ class CarPost
     private $id;
 
     /**
+     * @var CarInfo
+     * @ORM\OneToOne(targetEntity="App\Entity\CarInfo", cascade={"persist"})
+     * @ORM\JoinColumn(referencedColumnName="id")
+     */
+    private $carInfo;
+
+    /**
      * @var string
      * @ORM\Column(type="string")
      */
     private $title;
 
     /**
-     * @var \DateTime
-     * @ORM\Column(type="datetime")
-     */
-    private $createdAt;
-
-    /**
-     * Price in BYN (for test)
-     * @var integer
-     * @ORM\Column(type="integer")
-     */
-    private $price;
-
-    /**
      * @var string
      * @ORM\Column(type="text")
      */
-    private $aboutCar;
+    private $description;
+
+    /**
+     * @var string
+     * @ORM\Column(type="string", nullable=true)
+     */
+    private $sellerName;
 
     /**
      * @var string[]
-     * @ORM\Column(type="array")
+     * @ORM\Column(type="array", nullable=true)
      */
     private $sellerPhones;
 
     /**
      * @var string
-     * @ORM\Column(type="string")
+     * @ORM\Column(type="string", nullable=true)
      */
     private $link;
 
     /**
      * @var \DateTime
-     * @ORM\Column(type="datetime")
+     * @ORM\Column(type="datetime", nullable=true)
+     */
+    private $createdAt;
+
+    /**
+     * @var \DateTime
+     * @ORM\Column(type="datetime", nullable=true)
      */
     private $createdAtInSystem;
 
@@ -68,6 +74,12 @@ class CarPost
      * @ORM\Column(type="string", nullable=true)
      */
     private $previewImage;
+
+    /**
+     * @var string
+     * @ORM\Column(type="string", nullable=true)
+     */
+    private $previewImageLink;
 
     /**
      * @var string[]
@@ -85,12 +97,26 @@ class CarPost
 
     /**
      * @param int $id
-     * @return CarPost
      */
-    public function setId(int $id): CarPost
+    public function setId(int $id): void
     {
         $this->id = $id;
-        return $this;
+    }
+
+    /**
+     * @return CarInfo
+     */
+    public function getCarInfo(): ?CarInfo
+    {
+        return $this->carInfo;
+    }
+
+    /**
+     * @param CarInfo $carInfo
+     */
+    public function setCarInfo(CarInfo $carInfo): void
+    {
+        $this->carInfo = $carInfo;
     }
 
     /**
@@ -103,66 +129,42 @@ class CarPost
 
     /**
      * @param string $title
-     * @return CarPost
      */
-    public function setTitle(string $title): CarPost
+    public function setTitle(string $title): void
     {
         $this->title = $title;
-        return $this;
-    }
-
-    /**
-     * @return \DateTime
-     */
-    public function getCreatedAt(): ?\DateTime
-    {
-        return $this->createdAt;
-    }
-
-    /**
-     * @param \DateTime $createdAt
-     * @return CarPost
-     */
-    public function setCreatedAt(\DateTime $createdAt): CarPost
-    {
-        $this->createdAt = $createdAt;
-        return $this;
-    }
-
-    /**
-     * @return int
-     */
-    public function getPrice(): ?int
-    {
-        return $this->price;
-    }
-
-    /**
-     * @param int $price
-     * @return CarPost
-     */
-    public function setPrice(int $price): CarPost
-    {
-        $this->price = $price;
-        return $this;
     }
 
     /**
      * @return string
      */
-    public function getAboutCar(): ?string
+    public function getDescription(): ?string
     {
-        return $this->aboutCar;
+        return $this->description;
     }
 
     /**
-     * @param string $aboutCar
-     * @return CarPost
+     * @param string $description
      */
-    public function setAboutCar(string $aboutCar): CarPost
+    public function setDescription(string $description): void
     {
-        $this->aboutCar = $aboutCar;
-        return $this;
+        $this->description = $description;
+    }
+
+    /**
+     * @return string
+     */
+    public function getSellerName(): ?string
+    {
+        return $this->sellerName;
+    }
+
+    /**
+     * @param string $sellerName
+     */
+    public function setSellerName(string $sellerName): void
+    {
+        $this->sellerName = $sellerName;
     }
 
     /**
@@ -175,12 +177,10 @@ class CarPost
 
     /**
      * @param string[] $sellerPhones
-     * @return CarPost
      */
-    public function setSellerPhones(array $sellerPhones): CarPost
+    public function setSellerPhones(array $sellerPhones): void
     {
         $this->sellerPhones = $sellerPhones;
-        return $this;
     }
 
     /**
@@ -193,12 +193,26 @@ class CarPost
 
     /**
      * @param string $link
-     * @return CarPost
      */
-    public function setLink(string $link): CarPost
+    public function setLink(string $link): void
     {
         $this->link = $link;
-        return $this;
+    }
+
+    /**
+     * @return \DateTime
+     */
+    public function getCreatedAt(): ?\DateTime
+    {
+        return $this->createdAt;
+    }
+
+    /**
+     * @param \DateTime $createdAt
+     */
+    public function setCreatedAt(\DateTime $createdAt): void
+    {
+        $this->createdAt = $createdAt;
     }
 
     /**
@@ -227,12 +241,10 @@ class CarPost
 
     /**
      * @param string $previewImage
-     * @return CarPost
      */
-    public function setPreviewImage(?string $previewImage): CarPost
+    public function setPreviewImage(string $previewImage): void
     {
         $this->previewImage = $previewImage;
-        return $this;
     }
 
     /**
@@ -245,11 +257,25 @@ class CarPost
 
     /**
      * @param string[] $images
-     * @return CarPost
      */
-    public function setImages(?array $images): CarPost
+    public function setImages(array $images): void
     {
         $this->images = $images;
-        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getPreviewImageLink(): ?string
+    {
+        return $this->previewImageLink;
+    }
+
+    /**
+     * @param string $previewImageLink
+     */
+    public function setPreviewImageLink(?string $previewImageLink): void
+    {
+        $this->previewImageLink = $previewImageLink;
     }
 }

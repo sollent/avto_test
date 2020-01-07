@@ -1,4 +1,10 @@
 {
+    "cakephp/core": {
+        "version": "3.8.8"
+    },
+    "cakephp/utility": {
+        "version": "3.8.8"
+    },
     "clue/buzz-react": {
         "version": "v2.6.0"
     },
@@ -114,6 +120,9 @@
     "guzzlehttp/psr7": {
         "version": "1.6.1"
     },
+    "indigophp/hash-compat": {
+        "version": "v1.1.0"
+    },
     "jdorn/sql-formatter": {
         "version": "v1.2.17"
     },
@@ -162,14 +171,23 @@
     "react/cache": {
         "version": "v1.0.0"
     },
+    "react/child-process": {
+        "version": "v0.6.1"
+    },
     "react/dns": {
         "version": "v1.2.0"
     },
     "react/event-loop": {
         "version": "v1.1.0"
     },
+    "react/filesystem": {
+        "version": "v0.1.2"
+    },
     "react/http-client": {
         "version": "v0.5.9"
+    },
+    "react/mysql": {
+        "version": "v0.5.4"
     },
     "react/promise": {
         "version": "v2.7.1"
@@ -200,6 +218,9 @@
         "files": [
             "config/packages/sensio_framework_extra.yaml"
         ]
+    },
+    "spatie/regex": {
+        "version": "1.4.1"
     },
     "swiftmailer/swiftmailer": {
         "version": "v6.2.3"
@@ -559,11 +580,38 @@
     "symfony/yaml": {
         "version": "v4.3.8"
     },
+    "tivie/php-os-detector": {
+        "version": "1.1.0"
+    },
     "twig/twig": {
         "version": "v2.12.2"
     },
     "webmozart/assert": {
         "version": "1.5.0"
+    },
+    "wyrihaximus/cpu-core-detector": {
+        "version": "1.0.2"
+    },
+    "wyrihaximus/file-descriptors": {
+        "version": "1.0.0"
+    },
+    "wyrihaximus/json-throwable": {
+        "version": "2.0.0"
+    },
+    "wyrihaximus/json-utilities": {
+        "version": "1.1.0"
+    },
+    "wyrihaximus/react-child-process-messenger": {
+        "version": "2.10.0"
+    },
+    "wyrihaximus/react-child-process-pool": {
+        "version": "1.6.0"
+    },
+    "wyrihaximus/react-child-process-promise": {
+        "version": "2.0.2"
+    },
+    "wyrihaximus/ticking-promise": {
+        "version": "1.6.3"
     },
     "zendframework/zend-code": {
         "version": "3.4.0"

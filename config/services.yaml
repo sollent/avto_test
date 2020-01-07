@@ -27,6 +27,21 @@ services:
 
     Goutte\Client:
         autowire: true
+        public: true
+
+    Clue\React\Buzz\Browser:
+        autowire: true
+
+    React\EventLoop\LoopInterface:
+        autowire: true
+
+    GuzzleHttp\Client:
+        autowire: true
+
+    App\Command\ParseCar:
+        autowire: true
+        public: true
+#        arguments: ['']
 
     # add more service definitions when explicit configuration is needed
     # please note that last definitions always *replace* previous ones

@@ -126,6 +126,22 @@
       <path value="$PROJECT_DIR$/vendor/clue/buzz-react" />
       <path value="$PROJECT_DIR$/vendor/evenement/evenement" />
       <path value="$PROJECT_DIR$/vendor/ringcentral/psr7" />
+      <path value="$PROJECT_DIR$/vendor/react/mysql" />
+      <path value="$PROJECT_DIR$/vendor/cakephp/utility" />
+      <path value="$PROJECT_DIR$/vendor/cakephp/core" />
+      <path value="$PROJECT_DIR$/vendor/indigophp/hash-compat" />
+      <path value="$PROJECT_DIR$/vendor/tivie/php-os-detector" />
+      <path value="$PROJECT_DIR$/vendor/react/child-process" />
+      <path value="$PROJECT_DIR$/vendor/react/filesystem" />
+      <path value="$PROJECT_DIR$/vendor/wyrihaximus/json-throwable" />
+      <path value="$PROJECT_DIR$/vendor/wyrihaximus/json-utilities" />
+      <path value="$PROJECT_DIR$/vendor/wyrihaximus/cpu-core-detector" />
+      <path value="$PROJECT_DIR$/vendor/wyrihaximus/file-descriptors" />
+      <path value="$PROJECT_DIR$/vendor/wyrihaximus/react-child-process-promise" />
+      <path value="$PROJECT_DIR$/vendor/wyrihaximus/ticking-promise" />
+      <path value="$PROJECT_DIR$/vendor/wyrihaximus/react-child-process-messenger" />
+      <path value="$PROJECT_DIR$/vendor/wyrihaximus/react-child-process-pool" />
+      <path value="$PROJECT_DIR$/vendor/spatie/regex" />
     </include_path>
   </component>
   <component name="PhpProjectSharedConfiguration" php_language_level="7.3" />
