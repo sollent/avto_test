@@ -45,7 +45,7 @@ class FormMarModelNamesCommand extends Command
      */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-//        $this->formMarkNames();
+        $this->formMarkNames();
         $this->formModelNames();
     }
 

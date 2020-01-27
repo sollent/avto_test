@@ -5,7 +5,6 @@ namespace App\Command;
 use App\Service\CarPostCrawlerService;
 use App\Service\CarPostService;
 use Clue\React\Buzz\Browser;
-use Goutte\Client;
 use Psr\Http\Message\ResponseInterface;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
@@ -49,13 +48,11 @@ class ParseCar extends Command
 
     /**
      * ParseCar constructor.
-     * @param Client $client
      * @param \Symfony\Component\Filesystem\Filesystem $symfonyFilesystem
      * @param CarPostService $carPostService
      * @param CarPostCrawlerService $carPostCrawlerService
      */
     public function __construct(
-        Client $client,
         \Symfony\Component\Filesystem\Filesystem $symfonyFilesystem,
         CarPostService $carPostService,
         CarPostCrawlerService $carPostCrawlerService
@@ -63,7 +60,6 @@ class ParseCar extends Command
     {
         parent::__construct();
 
-        $this->client = $client;
         $this->symfonyFilesystem = $symfonyFilesystem;
         $this->carPostService = $carPostService;
         $this->carPostCrawlerService = $carPostCrawlerService;
@@ -104,7 +100,7 @@ class ParseCar extends Command
 
         $loop->run();
 
-        $this->carPostService->save($this->resultCars);exit();
+        $this->carPostService->save($this->resultCars);
 //        dump($this->carPostCrawlerService->getImagesQueue());exit();
 //        $this->carPostService->saveImages($this->carPostCrawlerService->getImagesQueue());
 

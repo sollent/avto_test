@@ -68,9 +68,12 @@ class FormGenerationsCommand extends Command
             $fromYear = $yearsArray[0];
             $toYear = $yearsArray[1];
 
+            $fromYearDate = \DateTime::createFromFormat('Y', $fromYear);
+            $toYearDate = \DateTime::createFromFormat('Y', $toYear);
+
             $generation->setName($resultString);
-            $generation->setFromYear($fromYear !== 'н.в.' ? new \DateTime($fromYear) : new \DateTime('now'));
-            $generation->setToYear($toYear !== 'н.в.' ? new \DateTime($toYear) : new \DateTime('now'));
+            $generation->setFromYear($fromYear !== 'н.в.' ? $fromYearDate : new \DateTime('now'));
+            $generation->setToYear($toYear !== 'н.в.' ? $toYearDate : new \DateTime('now'));
         }
 
         $this->em->flush();

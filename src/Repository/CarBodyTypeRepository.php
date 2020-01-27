@@ -29,6 +29,8 @@ class CarBodyTypeRepository extends ServiceEntityRepository
      */
     public function findOneByName(string $name)
     {
+        $result = null;
+
         try {
             $result = $this->createQueryBuilder('cbt')
                 ->where('cbt.name = :name')

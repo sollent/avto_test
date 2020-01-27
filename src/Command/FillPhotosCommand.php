@@ -119,6 +119,15 @@ class FillPhotosCommand extends Command
 
             $post->setPreviewImage($previewImageName);
             $post->setImages($carGallery);
+            $post->setIsActive(true);
+            $this->em->persist($post);
+            $this->em->flush();
+            $this->em->refresh($post);
+
+            if (!$post->getPreviewImage() || ($post->getImages() === null || count($post->getImages()) === 0)) {
+                $post->setIsActive(false);
+            }
+
             $this->em->persist($post);
             $this->em->flush();
         }
