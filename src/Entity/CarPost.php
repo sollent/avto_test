@@ -85,7 +85,19 @@ class CarPost
      * @var string[]
      * @ORM\Column(type="array", nullable=true)
      */
+    private $imagesLinks;
+
+    /**
+     * @var string[]
+     * @ORM\Column(type="array", nullable=true)
+     */
     private $images;
+
+    /**
+     * @var bool
+     * @ORM\Column(type="boolean")
+     */
+    private $isActive = false;
 
     /**
      * @return int
@@ -248,22 +260,6 @@ class CarPost
     }
 
     /**
-     * @return string[]
-     */
-    public function getImages(): ?array
-    {
-        return $this->images;
-    }
-
-    /**
-     * @param string[] $images
-     */
-    public function setImages(array $images): void
-    {
-        $this->images = $images;
-    }
-
-    /**
      * @return string
      */
     public function getPreviewImageLink(): ?string
@@ -277,5 +273,53 @@ class CarPost
     public function setPreviewImageLink(?string $previewImageLink): void
     {
         $this->previewImageLink = $previewImageLink;
+    }
+
+    /**
+     * @return bool
+     */
+    public function isActive(): ?bool
+    {
+        return $this->isActive;
+    }
+
+    /**
+     * @param bool $isActive
+     */
+    public function setIsActive(bool $isActive): void
+    {
+        $this->isActive = $isActive;
+    }
+
+    /**
+     * @return string[]
+     */
+    public function getImagesLinks(): ?array
+    {
+        return $this->imagesLinks;
+    }
+
+    /**
+     * @param string[] $imagesLinks
+     */
+    public function setImagesLinks(array $imagesLinks): void
+    {
+        $this->imagesLinks = $imagesLinks;
+    }
+
+    /**
+     * @return string[]
+     */
+    public function getImages(): ?array
+    {
+        return $this->images;
+    }
+
+    /**
+     * @param string[] $images
+     */
+    public function setImages(array $images): void
+    {
+        $this->images = $images;
     }
 }

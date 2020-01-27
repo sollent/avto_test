@@ -93,11 +93,11 @@ class CarGeneration
     }
 
     /**
-     * @return \DateTime
+     * @return string|null
      */
-    public function getFromYear(): ?\DateTime
+    public function getFromYear(): ?string
     {
-        return $this->fromYear;
+        return $this->fromYear->format('Y');
     }
 
     /**
@@ -111,11 +111,11 @@ class CarGeneration
     }
 
     /**
-     * @return \DateTime
+     * @return string|null
      */
-    public function getToYear(): ?\DateTime
+    public function getToYear(): ?string
     {
-        return $this->toYear;
+        return $this->toYear->format('Y');
     }
 
     /**

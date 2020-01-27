@@ -2,6 +2,7 @@
 
 namespace App\Service;
 
+use App\Entity\CarGeneration;
 use App\Entity\CarMark;
 use App\Entity\CarModel;
 use App\Repository\CarMarkRepository;
@@ -108,12 +109,12 @@ class CarPostCrawlerService
         $price = $crawler->filter('.card-details .card-price-main-primary')->text();
         try {
             $previewImage = $crawler->filter('.card-gallery .fotorama a')->first()->attr('href');
-//            $images = $crawler->filter('.card-gallery .fotorama a')->each(function (Crawler $node, $i) {
-//                if ($i > 0) {
-//                    return $node->attr('href');
-//                }
-//            });
-//            array_splice($images, 0, 1);
+            $images = $crawler->filter('.card-gallery .fotorama a')->each(function (Crawler $node, $i) {
+                if ($i > 0) {
+                    return $node->attr('href');
+                }
+            });
+            array_splice($images, 0, 1);
 
         } catch (\Exception $exception) {
             $previewImage = null;
@@ -138,7 +139,7 @@ class CarPostCrawlerService
         $currentDate = new \DateTime('now');
         $previewImageName = "avto-" . $currentDate->format('Y-m-d_H:i:s.u');
 
-        // Save binary image in
+//        // Save binary image in
 //        $this->browser->get($previewImage)->then(
 //            function (ResponseInterface $response) use ($previewImageName) {
 //                // store image
@@ -178,8 +179,8 @@ class CarPostCrawlerService
             'previewImage' => trim($previewImage),
             'sellerName' => trim($sellerName),
             'sellerPhones' => $phonesNumbers,
+            'images' => $images,
             'previewImageLink' => $previewImage,
-//            'previewImageName' => $previewImageName,
             'carInfo' => $this->extractCarInfo($crawler, $url, trim($title))
         ];
 
@@ -198,7 +199,7 @@ class CarPostCrawlerService
         $mark = $this->extractMark($url);
         $model = $this->extractModel($url, $mark);
 
-//        $generation = $this->extractGeneration($title, $model);
+        $generation = $this->extractGeneration($title, $model);
 
         $carInfoArray = $crawler->filter('.card-info ul li')->each(function (Crawler $node) {
             $result = array();
@@ -221,7 +222,8 @@ class CarPostCrawlerService
 
         return array_merge($resultCarInfo, array(
             'mark' => $mark,
-            'model' => $model
+            'model' => $model,
+            'generation' => $generation
         ));
     }
 
@@ -269,8 +271,47 @@ class CarPostCrawlerService
     public function extractGeneration(string $title, int $carModel): ?int
     {
         $model = $this->em->getRepository(CarModel::class)->find($carModel);
+        /** @var CarMark $mark */
+        $mark = $model->getCarMark();
+//        dump($title);
+        $title = substr($title, 0, -6);
 
-        $array = explode(' ', $title);
+        $title = str_replace($mark->getName(), '', $title);
+        $title = str_replace($model->getName(), '', $title);
+        $title = trim($title);
+
+//        dump($title);
+
+        $titleItems = explode(' ', $title);
+        $resultItems = array();
+
+        foreach ($titleItems as $item) {
+            if ($item === $model->getName() || $item === $mark->getName()) {
+                continue;
+            }
+
+            array_push($resultItems, $item);
+        }
+
+        $variants = array();
+
+        for ($i = count($resultItems); $i > 0; $i--) {
+            array_push($variants, implode(' ', array_slice($resultItems, 0, $i)));
+        }
+
+        foreach ($variants as $variant) {
+            $needle = $this->em->getRepository(CarGeneration::class)->findOneBy([
+                'carModel' => $model,
+                'name' => $variant
+            ]);
+
+            if ($needle) {
+                return $needle->getId();
+//                dump($needle);exit();
+            }
+        }
+
+        return null;
     }
 
     public function fillCarLinks(): void

@@ -4,6 +4,7 @@ namespace App\Service;
 
 use App\Entity\CarColor;
 use App\Entity\CarEngine;
+use App\Entity\CarGeneration;
 use App\Entity\CarInfo;
 use App\Entity\CarMark;
 use App\Entity\CarMileageMeasure;
@@ -79,6 +80,7 @@ class CarPostService
             $carPost->setDescription($post['description']);
             $carPost->setCreatedAt($post['createdAt']);
             $carPost->setSellerName($post['sellerName']);
+            $carPost->setImagesLinks($post['images'] ? $post['images'] : array());
             try {
                 $carPost->setPreviewImageLink($post['previewImageLink']);
             } catch (\Exception $e) {
@@ -108,6 +110,11 @@ class CarPostService
 
             $carInfo->setMark($this->em->getRepository(CarMark::class)->find($post['carInfo']['mark']));
             $carInfo->setModel($this->em->getRepository(CarModel::class)->find($post['carInfo']['model']));
+            try {
+                $carInfo->setGeneration($this->em->getRepository(CarGeneration::class)->find($post['carInfo']['generation']));
+            } catch (\Exception $exception) {
+                dump($exception->getMessage());
+            }
 
             $carInfo->setPrice($carPrice);
             $carInfo->setEngine($carEngine);

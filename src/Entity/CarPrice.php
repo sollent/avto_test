@@ -23,13 +23,13 @@ class CarPrice
      * @var integer
      * @ORM\Column(type="integer")
      */
-    private $BYN;
+    private $byn;
 
     /**
      * @var integer
      * @ORM\Column(type="integer", nullable=true)
      */
-    private $USD;
+    private $usd;
 
     /**
      * @return int
@@ -50,32 +50,32 @@ class CarPrice
     /**
      * @return int
      */
-    public function getBYN(): ?int
+    public function getbyn(): ?int
     {
-        return $this->BYN;
+        return $this->byn;
     }
 
     /**
      * @param int $BYN
      */
-    public function setBYN(int $BYN): void
+    public function setbyn(int $BYN): void
     {
-        $this->BYN = $BYN;
+        $this->byn = $BYN;
     }
 
     /**
      * @return int
      */
-    public function getUSD(): ?int
+    public function getusd(): ?int
     {
-        return $this->USD;
+        return $this->usd;
     }
 
     /**
      * @param int $USD
      */
-    public function setUSD(int $USD): void
+    public function setuds(int $USD): void
     {
-        $this->USD = $USD;
+        $this->usd = $USD;
     }
 }
