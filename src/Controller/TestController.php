@@ -39,7 +39,7 @@ class TestController extends AbstractController
         /** @var CarPost[] $carPosts */
         $carPosts = $this->getDoctrine()->getRepository(CarPost::class)->findBy(
             [],
-            [],
+            ['createdAtInSystem' => 'DESC'],
             10
         );
 //        /** @var CarPost[] $carPosts */
