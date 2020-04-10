@@ -15,7 +15,9 @@ use App\Entity\CarTransmission;
 use App\Repository\CarBodyTypeRepository;
 use App\Repository\CarEngineTypeRepository;
 use App\Repository\CarShapeRepository;
+use App\Service\UploaderService\UploaderServiceInterface;
 use Doctrine\ORM\EntityManagerInterface;
+use Symfony\Component\HttpFoundation\File\UploadedFile;
 
 /**
  * Class CarPostService
@@ -49,11 +51,36 @@ class CarPostService
     private $carShapeRepository;
 
     /**
+     * @var UploaderServiceInterface
+     */
+    private $uploaderService;
+
+    /**
+     * @var UploaderServiceInterface
+     */
+    private $carUploaderService;
+
+    /**
+     * @param UploaderServiceInterface $uploaderService
+     *
+     * @param UploaderServiceInterface $carUploaderService
+     */
+    public function setUploaderServices(
+        UploaderServiceInterface $uploaderService,
+        UploaderServiceInterface $carUploaderService
+    ) {
+        $this->uploaderService = $uploaderService;
+        $this->carUploaderService = $carUploaderService;
+    }
+
+    /**
      * CarPostService constructor.
      * @param EntityManagerInterface $em
      * @param CarEngineTypeRepository $carEngineTypeRepository
      * @param CarBodyTypeRepository $carBodyTypeRepository
      * @param CarShapeRepository $carShapeRepository
+     * @param UploaderServiceInterface $uploaderService
+     * @param UploaderServiceInterface $carUploaderService
      */
     public function __construct(
         EntityManagerInterface $em,
@@ -70,10 +97,13 @@ class CarPostService
 
     /**
      * @param array $posts
+     * @return array
      * @throws \Exception
      */
-    public function save(array $posts): void
+    public function save(array $posts)
     {
+        $carPosts = array();
+
         foreach ($posts as $post) {
             $carPost = new CarPost();
             $carPost->setTitle($post['title']);
@@ -135,9 +165,13 @@ class CarPostService
             $this->em->persist($carPrice);
             $this->em->persist($carEngine);
             $this->em->persist($carPost);
+
+            array_push($carPosts, $carPost);
         }
 
         $this->em->flush();
+
+        return $carPosts;
     }
 
     /**
@@ -158,23 +192,29 @@ class CarPostService
      */
     private function getMileageMeasure(string $mileageMeasure): CarMileageMeasure
     {
-//        $array = explode(' ', $mileageMeasure);
-//        $measure = $array[1];
-
         return $this->em->getRepository(CarMileageMeasure::class)->findOneBy([
             'name' => 'км'
         ]);
-
     }
 
     /**
-     * @param array $imagesQueue
+     * @param array $carPosts
      */
-    public function saveImages(array $imagesQueue): void
+    public function saveImages(array $carPosts): void
     {
-        foreach ($imagesQueue as $key => $image) {
-            file_put_contents("public/images/" . $key . '.jpeg', $image);
+        /** @var CarPost $carPost */
+        foreach ($carPosts as $carPost) {
+//            $this->uploaderService->uploadOne($carPost, file_get_contents($carPost->getPreviewImageLink()));
+            if ($carPost->getPreviewImageLink()) {
+                $filename = $this->carUploaderService->uploadOne(
+                    $carPost,
+                    file_get_contents($carPost->getPreviewImageLink())
+                );
+                $carPost->setPreviewImage($filename);
+            }
         }
+
+        $this->em->flush();
     }
 
     /**

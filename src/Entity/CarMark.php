@@ -2,6 +2,7 @@
 
 namespace App\Entity;
 
+use App\Model\Vehicle\VehicleMarkInterface;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -9,7 +10,7 @@ use Doctrine\ORM\Mapping as ORM;
  * @package App\Entity
  * @ORM\Entity
  */
-class CarMark
+class CarMark implements VehicleMarkInterface
 {
     /**
      * @var integer

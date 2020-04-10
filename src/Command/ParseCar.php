@@ -2,8 +2,11 @@
 
 namespace App\Command;
 
+use App\Entity\CarMark;
+use App\Entity\CarPost;
 use App\Service\CarPostCrawlerService;
 use App\Service\CarPostService;
+use App\Service\SubscriptionResolverService;
 use Clue\React\Buzz\Browser;
 use Psr\Http\Message\ResponseInterface;
 use Symfony\Component\Console\Command\Command;
@@ -42,6 +45,11 @@ class ParseCar extends Command
     private $symfonyFilesystem;
 
     /**
+     * @var SubscriptionResolverService
+     */
+    private $subscriptionResolverService;
+
+    /**
      * @var array
      */
     private $resultCars = [];
@@ -51,11 +59,13 @@ class ParseCar extends Command
      * @param \Symfony\Component\Filesystem\Filesystem $symfonyFilesystem
      * @param CarPostService $carPostService
      * @param CarPostCrawlerService $carPostCrawlerService
+     * @param SubscriptionResolverService $subscriptionResolverService
      */
     public function __construct(
         \Symfony\Component\Filesystem\Filesystem $symfonyFilesystem,
         CarPostService $carPostService,
-        CarPostCrawlerService $carPostCrawlerService
+        CarPostCrawlerService $carPostCrawlerService,
+        SubscriptionResolverService $subscriptionResolverService
     )
     {
         parent::__construct();
@@ -63,6 +73,7 @@ class ParseCar extends Command
         $this->symfonyFilesystem = $symfonyFilesystem;
         $this->carPostService = $carPostService;
         $this->carPostCrawlerService = $carPostCrawlerService;
+        $this->subscriptionResolverService = $subscriptionResolverService;
     }
 
     protected function configure()
@@ -100,14 +111,26 @@ class ParseCar extends Command
 
         $loop->run();
 
-        $this->carPostService->save($this->resultCars);
-//        dump($this->carPostCrawlerService->getImagesQueue());exit();
-//        $this->carPostService->saveImages($this->carPostCrawlerService->getImagesQueue());
+        $posts = $this->carPostService->save($this->resultCars);
+        $this->carPostService->saveImages($posts);
+
+        $this->resolveSubscriptions($posts);
 
         $executionEndTime = microtime(true);
 
         // Result time of executing script
         $seconds = $executionEndTime - $executionStartTime;
-        echo "This script took $seconds to execute.";
+        echo "\nThis script took $seconds to execute.\n";
+    }
+
+    /**
+     * @param array $posts
+     */
+    private function resolveSubscriptions(array $posts)
+    {
+        /** @var CarPost $post */
+        foreach ($posts as $post) {
+            $this->subscriptionResolverService->resolveSubscription($post);
+        }
     }
 }

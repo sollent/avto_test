@@ -1,4 +1,10 @@
 {
+    "begateway/begateway-api-php": {
+        "version": "4.2.1"
+    },
+    "borsaco/telegram-bot-api-bundle": {
+        "version": "1.0.3"
+    },
     "cakephp/core": {
         "version": "3.8.8"
     },
@@ -29,6 +35,9 @@
     "doctrine/common": {
         "version": "v2.11.0"
     },
+    "doctrine/data-fixtures": {
+        "version": "1.4.0"
+    },
     "doctrine/dbal": {
         "version": "v2.10.0"
     },
@@ -49,6 +58,18 @@
     },
     "doctrine/doctrine-cache-bundle": {
         "version": "1.3.5"
+    },
+    "doctrine/doctrine-fixtures-bundle": {
+        "version": "3.0",
+        "recipe": {
+            "repo": "github.com/symfony/recipes",
+            "branch": "master",
+            "version": "3.0",
+            "ref": "fc52d86631a6dfd9fdf3381d0b7e3df2069e51b3"
+        },
+        "files": [
+            "src/DataFixtures/AppFixtures.php"
+        ]
     },
     "doctrine/doctrine-migrations-bundle": {
         "version": "1.2",
@@ -120,14 +141,29 @@
     "guzzlehttp/psr7": {
         "version": "1.6.1"
     },
+    "illuminate/contracts": {
+        "version": "v5.8.36"
+    },
+    "illuminate/support": {
+        "version": "v5.8.36"
+    },
     "indigophp/hash-compat": {
         "version": "v1.1.0"
+    },
+    "irazasyed/telegram-bot-sdk": {
+        "version": "v3.0.0"
     },
     "jdorn/sql-formatter": {
         "version": "v1.2.17"
     },
+    "league/event": {
+        "version": "2.2.0"
+    },
     "monolog/monolog": {
         "version": "1.25.2"
+    },
+    "nesbot/carbon": {
+        "version": "2.32.2"
     },
     "nikic/php-parser": {
         "version": "v4.3.0"
@@ -140,6 +176,9 @@
     },
     "ocramius/proxy-manager": {
         "version": "2.2.3"
+    },
+    "paragonie/sodium_compat": {
+        "version": "v1.13.0"
     },
     "phpdocumentor/reflection-common": {
         "version": "2.0.0"
@@ -164,6 +203,18 @@
     },
     "psr/log": {
         "version": "1.1.2"
+    },
+    "psr/simple-cache": {
+        "version": "1.0.1"
+    },
+    "pusher/pusher-php-server": {
+        "version": "3.0",
+        "recipe": {
+            "repo": "github.com/symfony/recipes-contrib",
+            "branch": "master",
+            "version": "3.0",
+            "ref": "8dd3ea817217453e14ab596317177465211e01d2"
+        }
     },
     "ralouphie/getallheaders": {
         "version": "3.0.3"

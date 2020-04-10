@@ -2,6 +2,8 @@
 
 namespace App\Entity;
 
+use App\Model\Vehicle\VehicleMarkInterface;
+use App\Model\Vehicle\VehicleModelInterface;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -9,7 +11,7 @@ use Doctrine\ORM\Mapping as ORM;
  * @package App\Entity
  * @ORM\Entity
  */
-class CarModel
+class CarModel implements VehicleModelInterface
 {
     /**
      * @var integer
@@ -42,7 +44,7 @@ class CarModel
      * @ORM\ManyToOne(targetEntity="App\Entity\CarMark", inversedBy="models")
      * @ORM\JoinColumn(referencedColumnName="id")
      */
-    private $carMark;
+    private $mark;
 
     /**
      * @var mixed
@@ -83,21 +85,6 @@ class CarModel
         $this->name = $name;
     }
 
-    /**
-     * @return CarMark
-     */
-    public function getCarMark(): ?CarMark
-    {
-        return $this->carMark;
-    }
-
-    /**
-     * @param CarMark $carMark
-     */
-    public function setCarMark(CarMark $carMark): void
-    {
-        $this->carMark = $carMark;
-    }
 
     /**
      * @return mixed
@@ -145,5 +132,21 @@ class CarModel
     public function setNameFromLink(string $nameFromLink): void
     {
         $this->nameFromLink = $nameFromLink;
+    }
+
+    /**
+     * @return VehicleMarkInterface|null
+     */
+    public function getMark(): ?VehicleMarkInterface
+    {
+        return $this->mark;
+    }
+
+    /**
+     * @param VehicleMarkInterface $mark
+     */
+    public function setMark(VehicleMarkInterface $mark): void
+    {
+        $this->mark = $mark;
     }
 }

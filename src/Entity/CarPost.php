@@ -2,6 +2,7 @@
 
 namespace App\Entity;
 
+use App\Model\PostInterface;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -10,7 +11,7 @@ use Doctrine\ORM\Mapping as ORM;
  * @ORM\Entity
  * @ORM\HasLifecycleCallbacks
  */
-class CarPost
+class CarPost implements PostInterface
 {
     /**
      * @var integer

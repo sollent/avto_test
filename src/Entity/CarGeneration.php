@@ -2,6 +2,8 @@
 
 namespace App\Entity;
 
+use App\Model\Vehicle\VehicleGenerationInterface;
+use App\Model\Vehicle\VehicleModelInterface;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -9,7 +11,7 @@ use Doctrine\ORM\Mapping as ORM;
  * @package App\Entity
  * @ORM\Entity
  */
-class CarGeneration
+class CarGeneration implements VehicleGenerationInterface
 {
     /**
      * @var integer
@@ -42,7 +44,7 @@ class CarGeneration
      * @ORM\ManyToOne(targetEntity="App\Entity\CarModel", inversedBy="generations")
      * @ORM\JoinColumn(referencedColumnName="id")
      */
-    private $carModel;
+    private $model;
 
     /**
      * @return int
@@ -77,19 +79,21 @@ class CarGeneration
     }
 
     /**
-     * @return CarModel
+     * @return VehicleModelInterface|null
      */
-    public function getCarModel(): ?CarModel
+    public function getModel(): ?VehicleModelInterface
     {
-        return $this->carModel;
+        return $this->model;
     }
 
     /**
-     * @param CarModel $carModel
+     * @param VehicleModelInterface $model
+     * @return VehicleGenerationInterface
      */
-    public function setCarModel(CarModel $carModel): void
+    public function setModel(VehicleModelInterface $model): VehicleGenerationInterface
     {
-        $this->carModel = $carModel;
+        $this->model = $model;
+        return $this;
     }
 
     /**

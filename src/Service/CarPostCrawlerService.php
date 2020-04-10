@@ -139,7 +139,7 @@ class CarPostCrawlerService
         $currentDate = new \DateTime('now');
         $previewImageName = "avto-" . $currentDate->format('Y-m-d_H:i:s.u');
 
-//        // Save binary image in
+        // Save binary image in
 //        $this->browser->get($previewImage)->then(
 //            function (ResponseInterface $response) use ($previewImageName) {
 //                // store image
@@ -147,10 +147,10 @@ class CarPostCrawlerService
 //                $this->imagesQueue[$previewImageName] = (string) $response->getBody();
 //            },
 //            function () {
-//                dump('REJECT');
+//                var_dump('REJECT');
 //            },
 //            function () {
-//                dump('PROGRESS');
+//                var_dump('PROGRESS');
 //            }
 //        );
 
@@ -256,7 +256,7 @@ class CarPostCrawlerService
 
         /** @var CarModel $model */
         $model = $this->em->getRepository(CarModel::class)->findOneBy([
-            'carMark' => $markId,
+            'mark' => $markId,
             'nameFromLink' => $array[2]
         ]);
 
@@ -272,7 +272,7 @@ class CarPostCrawlerService
     {
         $model = $this->em->getRepository(CarModel::class)->find($carModel);
         /** @var CarMark $mark */
-        $mark = $model->getCarMark();
+        $mark = $model->getMark();
 //        dump($title);
         $title = substr($title, 0, -6);
 
@@ -301,7 +301,7 @@ class CarPostCrawlerService
 
         foreach ($variants as $variant) {
             $needle = $this->em->getRepository(CarGeneration::class)->findOneBy([
-                'carModel' => $model,
+                'model' => $model,
                 'name' => $variant
             ]);
 
