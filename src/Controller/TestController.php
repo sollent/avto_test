@@ -36,14 +36,14 @@ class TestController extends AbstractController
      */
     public function showAll()
     {
-//        /** @var CarPost[] $carPosts */
-//        $carPosts = $this->getDoctrine()->getRepository(CarPost::class)->findBy(
-//            [],
-//            [],
-//            10
-//        );
         /** @var CarPost[] $carPosts */
-        $carPosts = $this->getDoctrine()->getRepository(CarPost::class)->findAll();
+        $carPosts = $this->getDoctrine()->getRepository(CarPost::class)->findBy(
+            [],
+            [],
+            10
+        );
+//        /** @var CarPost[] $carPosts */
+//        $carPosts = $this->getDoctrine()->getRepository(CarPost::class)->findAll();
 
         $response = new JsonResponse($this->carPostSerializer->getSerializer()->normalize($carPosts, null, [
             'attributes' => [

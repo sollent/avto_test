@@ -2,7 +2,6 @@
 
 namespace App\Command;
 
-use App\Entity\CarMark;
 use App\Entity\CarPost;
 use App\Service\CarPostCrawlerService;
 use App\Service\CarPostService;
