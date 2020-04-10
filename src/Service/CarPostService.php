@@ -135,7 +135,6 @@ class CarPostService
                 $carEngine->setEngineCapacity($this->getEngineCapacity($post['carInfo']['engine.engineCapacity']));
             } catch (\Exception $e) {
                 dump($e->getMessage());
-                dump($post['carInfo']['engine.engineCapacity']);
             }
 
             $carInfo->setMark($this->em->getRepository(CarMark::class)->find($post['carInfo']['mark']));
