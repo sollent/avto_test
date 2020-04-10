@@ -2,11 +2,13 @@
 
 namespace App\Controller;
 
+use App\Entity\CarMark;
 use App\Entity\CarPost;
 use App\Serializer\CarPostSerializer;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Validator\Constraints\Json;
 
 /**
  * Class TestController
@@ -121,6 +123,30 @@ class TestController extends AbstractController
                         'name'
                     ]
                 ]
+            ]
+        ]));
+
+        $response->headers->set('Access-Control-Allow-Origin', '*');
+
+        return $response;
+    }
+
+    /**
+     * @Route(
+     *     "/get-marks"
+     * )
+     *
+     * @return JsonResponse
+     * @throws \Symfony\Component\Serializer\Exception\ExceptionInterface
+     */
+    public function getMarks(): JsonResponse
+    {
+        $marks = $this->getDoctrine()->getRepository(CarMark::class)->findAll();
+
+        $response = new JsonResponse($this->carPostSerializer->getSerializer()->normalize($marks, null, [
+            'attributes' => [
+                'id',
+                'name'
             ]
         ]));
 
