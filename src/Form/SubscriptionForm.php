@@ -42,7 +42,8 @@ class SubscriptionForm extends AbstractType
         parent::configureOptions($resolver);
 
         $resolver->setDefaults([
-            'data_class' => Subscription::class
+            'data_class' => Subscription::class,
+            'csrf_protection' => false
         ]);
     }
 }
