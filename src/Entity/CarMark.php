@@ -58,7 +58,7 @@ class CarMark implements VehicleMarkInterface
 
     /**
      * @var mixed
-     * @ORM\OneToMany(targetEntity="App\Entity\CarModel", mappedBy="carMark")
+     * @ORM\OneToMany(targetEntity="App\Entity\CarModel", mappedBy="mark")
      * @ORM\JoinColumn(referencedColumnName="id")
      */
     private $models;

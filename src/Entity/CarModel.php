@@ -48,7 +48,7 @@ class CarModel implements VehicleModelInterface
 
     /**
      * @var mixed
-     * @ORM\OneToMany(targetEntity="App\Entity\CarGeneration", mappedBy="carModel")
+     * @ORM\OneToMany(targetEntity="App\Entity\CarGeneration", mappedBy="model")
      * @ORM\JoinColumn(referencedColumnName="id")
      */
     private $generations;
