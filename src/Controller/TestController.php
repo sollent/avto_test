@@ -15,6 +15,7 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Serializer\Exception\ExceptionInterface;
 use Symfony\Component\Validator\Constraints\Json;
 
 /**
@@ -127,7 +128,7 @@ class TestController extends AbstractController
      * @Route(
      *     "/cars"
      * )
-     * @throws \Symfony\Component\Serializer\Exception\ExceptionInterface
+     * @throws ExceptionInterface
      */
     public function showAll()
     {
@@ -153,7 +154,7 @@ class TestController extends AbstractController
      * )
      *
      * @return JsonResponse
-     * @throws \Symfony\Component\Serializer\Exception\ExceptionInterface
+     * @throws ExceptionInterface
      */
     public function getMarks(): JsonResponse
     {
@@ -181,7 +182,7 @@ class TestController extends AbstractController
      *
      * @return JsonResponse
      *
-     * @throws \Symfony\Component\Serializer\Exception\ExceptionInterface
+     * @throws ExceptionInterface
      */
     public function getModels(int $markId): JsonResponse
     {
@@ -211,7 +212,7 @@ class TestController extends AbstractController
      *
      * @return JsonResponse
      *
-     * @throws \Symfony\Component\Serializer\Exception\ExceptionInterface
+     * @throws ExceptionInterface
      */
     public function getGenerations(int $modelId): JsonResponse
     {
@@ -241,7 +242,7 @@ class TestController extends AbstractController
      * @param Request $request
      *
      * @return JsonResponse
-     * @throws \Symfony\Component\Serializer\Exception\ExceptionInterface
+     * @throws ExceptionInterface
      */
     public function filter(Request $request): JsonResponse
     {
@@ -258,6 +259,40 @@ class TestController extends AbstractController
             $carPosts = $this->simpleFilterRepository->filter($filterModel);
 
             $response = new JsonResponse($this->carPostSerializer->getSerializer()->normalize($carPosts, null, $this->carPostAttr));
+            $response->headers->set('Access-Control-Allow-Origin', '*');
+            return $response;
+        }
+
+        return new JsonResponse([], Response::HTTP_BAD_REQUEST);
+    }
+
+    /**
+     * @Route(
+     *     "/filter-count"
+     * )
+     *
+     * @param Request $request
+     *
+     * @return JsonResponse
+     * @throws ExceptionInterface
+     * @throws \Doctrine\ORM\NoResultException
+     * @throws \Doctrine\ORM\NonUniqueResultException
+     */
+    public function filterCount(Request $request): JsonResponse
+    {
+        $data = json_decode($request->getContent(), true);
+
+        $filterModel = new SimpleFilterModel();
+        $form = $this->createForm(SimpleFilterForm::class, $filterModel);
+
+        $form->submit($data);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $filterModel = $form->getData();
+
+            $count = $this->simpleFilterRepository->filter($filterModel, true);
+
+            $response = new JsonResponse(['count' => (int) $count]);
             $response->headers->set('Access-Control-Allow-Origin', '*');
             return $response;
         }

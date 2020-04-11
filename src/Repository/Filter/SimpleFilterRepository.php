@@ -24,12 +24,19 @@ class SimpleFilterRepository extends ServiceEntityRepository
 
     /**
      * @param SimpleFilterModel $filterModel
+     * @param bool $count
      * @return mixed
+     * @throws \Doctrine\ORM\NoResultException
+     * @throws \Doctrine\ORM\NonUniqueResultException
      */
-    public function filter(SimpleFilterModel $filterModel)
+    public function filter(SimpleFilterModel $filterModel, bool $count = false)
     {
         $queryBuilder = $this->createQueryBuilder('p')
             ->join('p.carInfo', 'ci');
+
+        if ($count) {
+            $queryBuilder->select('count(p)');
+        }
 
         foreach ($filterModel->getConditions() as $key => $value) {
             if ($value) {
@@ -40,6 +47,6 @@ class SimpleFilterRepository extends ServiceEntityRepository
         }
 
         $queryBuilder->setMaxResults(10);
-        return $queryBuilder->getQuery()->getResult();
+        return $count ? $queryBuilder->getQuery()->getSingleScalarResult() : $queryBuilder->getQuery()->getResult();
     }
 }
