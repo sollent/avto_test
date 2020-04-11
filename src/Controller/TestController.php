@@ -198,7 +198,7 @@ class TestController extends AbstractController
     public function getGenerations(int $modelId): JsonResponse
     {
         $generations = $this->getDoctrine()->getRepository(CarGeneration::class)->findBy([
-            'mark' => $this->getDoctrine()->getRepository(CarModel::class)->find($modelId)
+            'model' => $this->getDoctrine()->getRepository(CarModel::class)->find($modelId)
         ]);
 
         $response = new JsonResponse($this->carPostSerializer->getSerializer()->normalize($generations, null, [
