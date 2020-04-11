@@ -38,9 +38,8 @@ class SimpleFilterRepository extends ServiceEntityRepository
                     ->andWhere($key . '.id = ' . $value);
             }
         }
-//
-//        dump($queryBuilder->getQuery()->getSQL());exit();
 
+        $queryBuilder->setMaxResults(10);
         return $queryBuilder->getQuery()->getResult();
     }
 }
