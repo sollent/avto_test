@@ -6,9 +6,14 @@ use App\Entity\CarGeneration;
 use App\Entity\CarMark;
 use App\Entity\CarModel;
 use App\Entity\CarPost;
+use App\Form\Filter\SimpleFilterForm;
+use App\Model\Filter\SimpleFilterModel;
+use App\Repository\Filter\SimpleFilterRepository;
 use App\Serializer\CarPostSerializer;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
+use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Validator\Constraints\Json;
 
@@ -24,12 +29,98 @@ class TestController extends AbstractController
     private $carPostSerializer;
 
     /**
+     * @var SimpleFilterRepository
+     */
+    private $simpleFilterRepository;
+
+    private $carPostAttr = [
+        'attributes' => [
+            'id',
+            'title',
+            'description',
+            'sellerName',
+            'sellerPhones',
+            'link',
+            'previewImage',
+            'images',
+            'carInfo' => [
+                'id',
+                'mark' => [
+                    'id',
+                    'name'
+                ],
+                'model' => [
+                    'id',
+                    'name'
+                ],
+                'year',
+                'generation' => [
+                    'id',
+                    'name',
+                    'fromYear',
+                    'toYear'
+                ],
+                'bodyType' => [
+                    'id',
+                    'name'
+                ],
+                'modification',
+                'shape' => [
+                    'id',
+                    'name'
+                ],
+                'price' => [
+                    'id',
+                    'byn',
+                    'usd'
+                ],
+                'mileage',
+                'mileageMeasure' => [
+                    'id',
+                    'name'
+                ],
+                'engine' => [
+                    'id',
+                    'type' => [
+                        'id',
+                        'name'
+                    ],
+                    'engineCapacity',
+                    'engineCapacityHint',
+                    'hybrid',
+                    'gasEquipment',
+                    'gasEquipmentType' => [
+                        'id',
+                        'name'
+                    ],
+                    'powerReserve',
+                    'powerReserveHint'
+                ],
+                'transmission' => [
+                    'id',
+                    'name'
+                ],
+                'driveType' => [
+                    'id',
+                    'name'
+                ],
+                'color' => [
+                    'id',
+                    'name'
+                ]
+            ]
+        ]
+    ];
+
+    /**
      * TestController constructor.
      * @param CarPostSerializer $carPostSerializer
+     * @param SimpleFilterRepository $filterRepository
      */
-    public function __construct(CarPostSerializer $carPostSerializer)
+    public function __construct(CarPostSerializer $carPostSerializer, SimpleFilterRepository $filterRepository)
     {
         $this->carPostSerializer = $carPostSerializer;
+        $this->simpleFilterRepository = $filterRepository;
     }
 
     /**
@@ -49,84 +140,7 @@ class TestController extends AbstractController
 //        /** @var CarPost[] $carPosts */
 //        $carPosts = $this->getDoctrine()->getRepository(CarPost::class)->findAll();
 
-        $response = new JsonResponse($this->carPostSerializer->getSerializer()->normalize($carPosts, null, [
-            'attributes' => [
-                'id',
-                'title',
-                'description',
-                'sellerName',
-                'sellerPhones',
-                'link',
-                'previewImage',
-                'images',
-                'carInfo' => [
-                    'id',
-                    'mark' => [
-                        'id',
-                        'name'
-                    ],
-                    'model' => [
-                        'id',
-                        'name'
-                    ],
-                    'year',
-                    'generation' => [
-                        'id',
-                        'name',
-                        'fromYear',
-                        'toYear'
-                    ],
-                    'bodyType' => [
-                        'id',
-                        'name'
-                    ],
-                    'modification',
-                    'shape' => [
-                        'id',
-                        'name'
-                    ],
-                    'price' => [
-                        'id',
-                        'byn',
-                        'usd'
-                    ],
-                    'mileage',
-                    'mileageMeasure' => [
-                        'id',
-                        'name'
-                    ],
-                    'engine' => [
-                        'id',
-                        'type' => [
-                            'id',
-                            'name'
-                        ],
-                        'engineCapacity',
-                        'engineCapacityHint',
-                        'hybrid',
-                        'gasEquipment',
-                        'gasEquipmentType' => [
-                            'id',
-                            'name'
-                        ],
-                        'powerReserve',
-                        'powerReserveHint'
-                    ],
-                    'transmission' => [
-                        'id',
-                        'name'
-                    ],
-                    'driveType' => [
-                        'id',
-                        'name'
-                    ],
-                    'color' => [
-                        'id',
-                        'name'
-                    ]
-                ]
-            ]
-        ]));
+        $response = new JsonResponse($this->carPostSerializer->getSerializer()->normalize($carPosts, null, $this->carPostAttr));
 
         $response->headers->set('Access-Control-Allow-Origin', '*');
 
@@ -164,7 +178,9 @@ class TestController extends AbstractController
      * )
      *
      * @param int $markId
+     *
      * @return JsonResponse
+     *
      * @throws \Symfony\Component\Serializer\Exception\ExceptionInterface
      */
     public function getModels(int $markId): JsonResponse
@@ -192,7 +208,9 @@ class TestController extends AbstractController
      * )
      *
      * @param int $modelId
+     *
      * @return JsonResponse
+     *
      * @throws \Symfony\Component\Serializer\Exception\ExceptionInterface
      */
     public function getGenerations(int $modelId): JsonResponse
@@ -213,5 +231,37 @@ class TestController extends AbstractController
         $response->headers->set('Access-Control-Allow-Origin', '*');
 
         return $response;
+    }
+
+    /**
+     * @Route(
+     *     "/filter"
+     * )
+     *
+     * @param Request $request
+     *
+     * @return JsonResponse
+     * @throws \Symfony\Component\Serializer\Exception\ExceptionInterface
+     */
+    public function filter(Request $request): JsonResponse
+    {
+        $data = json_decode($request->getContent(), true);
+
+        $filterModel = new SimpleFilterModel();
+        $form = $this->createForm(SimpleFilterForm::class, $filterModel);
+
+        $form->submit($data);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $filterModel = $form->getData();
+
+            $carPosts = $this->simpleFilterRepository->filter($filterModel);
+
+            $response = new JsonResponse($this->carPostSerializer->getSerializer()->normalize($carPosts, null, $this->carPostAttr));
+            $response->headers->set('Access-Control-Allow-Origin', '*');
+            return $response;
+        }
+
+        return new JsonResponse([], Response::HTTP_BAD_REQUEST);
     }
 }
