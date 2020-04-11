@@ -2,7 +2,9 @@
 
 namespace App\Controller;
 
+use App\Entity\CarGeneration;
 use App\Entity\CarMark;
+use App\Entity\CarModel;
 use App\Entity\CarPost;
 use App\Serializer\CarPostSerializer;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -147,6 +149,64 @@ class TestController extends AbstractController
             'attributes' => [
                 'id',
                 'name'
+            ]
+        ]));
+
+        $response->headers->set('Access-Control-Allow-Origin', '*');
+
+        return $response;
+    }
+
+    /**
+     * @Route(
+     *     "/get-models/{markId}",
+     *     requirements={"markId"="\d+"}
+     * )
+     *
+     * @param int $markId
+     * @return JsonResponse
+     * @throws \Symfony\Component\Serializer\Exception\ExceptionInterface
+     */
+    public function getModels(int $markId): JsonResponse
+    {
+        $models = $this->getDoctrine()->getRepository(CarModel::class)->findBy([
+            'mark' => $this->getDoctrine()->getRepository(CarMark::class)->find($markId)
+        ]);
+
+        $response = new JsonResponse($this->carPostSerializer->getSerializer()->normalize($models, null, [
+            'attributes' => [
+                'id',
+                'name'
+            ]
+        ]));
+
+        $response->headers->set('Access-Control-Allow-Origin', '*');
+
+        return $response;
+    }
+
+    /**
+     * @Route(
+     *     "/get-generations/{modelId}",
+     *     requirements={"modelId"="\d+"}
+     * )
+     *
+     * @param int $modelId
+     * @return JsonResponse
+     * @throws \Symfony\Component\Serializer\Exception\ExceptionInterface
+     */
+    public function getGenerations(int $modelId): JsonResponse
+    {
+        $generations = $this->getDoctrine()->getRepository(CarGeneration::class)->findBy([
+            'mark' => $this->getDoctrine()->getRepository(CarModel::class)->find($modelId)
+        ]);
+
+        $response = new JsonResponse($this->carPostSerializer->getSerializer()->normalize($generations, null, [
+            'attributes' => [
+                'id',
+                'name',
+                'fromYear',
+                'toYear'
             ]
         ]));
 
