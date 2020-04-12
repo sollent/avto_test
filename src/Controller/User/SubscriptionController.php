@@ -26,7 +26,7 @@ class SubscriptionController extends AbstractController
      * @var array
      */
     private $subscriptionSerializable = [
-        'attribute' => [
+        'attributes' => [
             'id',
             'mark' => [
                 'id',
