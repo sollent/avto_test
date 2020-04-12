@@ -94,4 +94,20 @@ class SubscriptionController extends AbstractController
 
         return new JsonResponse(['error' => 'Some error'], Response::HTTP_BAD_REQUEST);
     }
+
+    /**
+     * @Route(
+     *     "/subscription/show-all"
+     * )
+     *
+     * @return JsonResponse
+     *
+     * @throws \Symfony\Component\Serializer\Exception\ExceptionInterface
+     */
+    public function showAll(): JsonResponse
+    {
+        $subscriptions = $this->getDoctrine()->getRepository(Subscription::class)->findAll();
+
+        return new JsonResponse($this->carPostSerializer->getSerializer()->normalize($subscriptions, null, $this->subscriptionSerializable));
+    }
 }
