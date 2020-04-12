@@ -45,21 +45,21 @@ class MailNotificationService implements DeliveryInterface
      */
     public function transfer(TransferInterface $transfer): void
     {
-        $user = $transfer->getUser();
-        $post = $transfer->getPost();
-
-        $swiftMessage = new \Swift_Message();
-        $swiftMessage
-            ->setFrom('feedback@rutasochi.ru')
-            ->setTo($user->getEmail())
-            ->setBody(
-                $this->container->get('twig')->render(
-                    'mail-notification.twig.html',
-                    \compact('post')
-                )
-            )
-            ->setContentType('text/html');
-
-        $this->mailer->send($swiftMessage);
+//        $user = $transfer->getUser();
+//        $post = $transfer->getPost();
+//
+//        $swiftMessage = new \Swift_Message();
+//        $swiftMessage
+//            ->setFrom('feedback@rutasochi.ru')
+//            ->setTo($user->getEmail())
+//            ->setBody(
+//                $this->container->get('twig')->render(
+//                    'mail-notification.twig.html',
+//                    \compact('post')
+//                )
+//            )
+//            ->setContentType('text/html');
+//
+//        $this->mailer->send($swiftMessage);
     }
 }
