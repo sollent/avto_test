@@ -82,8 +82,5 @@ services:
                 - '@uploader_service'
                 - '@car_uploader_service'
 
-    telegram_notification_service:
-        class: App\Service\Delivery\TelegramNotificationService
-        arguments:
-            $apiKey: '%env(TELEGRAM_BOT_KEY)%'
-            $chatId: '%env(TELEGRAM_CHAT_ID)%'
+    App\Service\Delivery\TelegramNotificationService:
+        arguments: ['%env(TELEGRAM_BOT_KEY)%', '%env(TELEGRAM_CHAT_ID)%']
