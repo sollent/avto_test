@@ -46,6 +46,13 @@ services:
             - '%env(PUSHER_APP_ID)%'
             - { cluster: '%env(PUSHER_CLUSTER)%', useTLS: true }
 
+    Pusher\PushNotifications\PushNotifications:
+        public: true
+        autowire: true
+        tags: ['pusher_push']
+        arguments:
+            - { instanceId: '%env(PUSHER_BEAMS_INSTANCE_ID)%', secretKey: '%env(PUSHER_BEAMS_KEY)%'}
+
     App\Service\Delivery\MailNotificationService:
         arguments: ['@swiftmailer.mailer']
 

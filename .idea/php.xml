@@ -154,6 +154,8 @@
       <path value="$PROJECT_DIR$/vendor/borsaco/telegram-bot-api-bundle" />
       <path value="$PROJECT_DIR$/vendor/psr/simple-cache" />
       <path value="$PROJECT_DIR$/vendor/begateway/begateway-api-php" />
+      <path value="$PROJECT_DIR$/vendor/pusher/pusher-push-notifications" />
+      <path value="$PROJECT_DIR$/vendor/firebase/php-jwt" />
     </include_path>
   </component>
   <component name="PhpProjectSharedConfiguration" php_language_level="7.3" />

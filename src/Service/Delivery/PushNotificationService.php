@@ -5,6 +5,7 @@ namespace App\Service\Delivery;
 use App\Entity\CarPost;
 use App\Model\TransferInterface;
 use Pusher\Pusher;
+use Pusher\PushNotifications\PushNotifications;
 
 /**
  * Class PushNotificationService
@@ -17,22 +18,32 @@ class PushNotificationService implements DeliveryInterface
     private $pusher;
 
     /**
+     * @var PushNotifications
+     */
+    private $pushNotifications;
+
+    /**
      * @var string
      */
     public const LOCAL_SERVICE_TAG = 'delivery.push.service';
 
     /**
      * PushNotificationService constructor.
+     *
      * @param Pusher $pusher
+     *
+     * @param PushNotifications $pushNotifications
      */
-    public function __construct(Pusher $pusher)
+    public function __construct(Pusher $pusher, PushNotifications $pushNotifications)
     {
         $this->pusher = $pusher;
+        $this->pushNotifications = $pushNotifications;
     }
 
     /**
      * @param TransferInterface $transfer
      * @throws \Pusher\PusherException
+     * @throws \Exception
      */
     public function transfer(TransferInterface $transfer): void
     {
@@ -41,7 +52,6 @@ class PushNotificationService implements DeliveryInterface
         $user = $transfer->getUser();
         $subscription = $transfer->getSubscription();
 
-//        var_dump($this->pusher);exit();
 
         $this->pusher->trigger(
             $user->getUsername() . '-' . $user->getId(),
@@ -58,5 +68,25 @@ class PushNotificationService implements DeliveryInterface
                 )
             )
         );
+
+        $response = $this->pushNotifications->publishToInterests(
+            array('sollent'),
+            array(
+                "fcm" => array(
+                    "notification" => array(
+                        "title" => "Новое объявление",
+                        "body" => $post->getTitle()
+                    )
+                ),
+                "apns" => array("aps" => array(
+                    "alert" => array(
+                        "title" => "Новое объявление",
+                        "body" => $post->getTitle()
+                    )
+                ))
+            )
+        );
+
+        var_dump($response);
     }
 }
