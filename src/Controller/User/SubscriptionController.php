@@ -115,7 +115,8 @@ class SubscriptionController extends AbstractController
     /**
      * @Route(
      *     "/subscription/remove/{subscriptionId}",
-     *     requirements={"subscriptionId"="\d+"}
+     *     requirements={"subscriptionId"="\d+"},
+     *     methods={"DELETE"}
      * )
      *
      * @param int $subscriptionId
