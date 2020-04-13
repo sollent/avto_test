@@ -325,7 +325,7 @@ class CarPostCrawlerService
         });
 
         $oldLinks = $this->carPostService->getLastPostsLinks();
-        $newLinks = array_slice($newLinks, 0, 11);
+        $newLinks = array_slice($newLinks, 0, 25);
         $diffLinks = array();
 
         for ($i = 0; $i < count($newLinks); $i++) {
@@ -340,7 +340,7 @@ class CarPostCrawlerService
             }
         }
 
-        $this->currentCarLinks = array_slice($diffLinks, 0, 11);
+        $this->currentCarLinks = array_slice($diffLinks, 0, 25);
     }
 
     /**
