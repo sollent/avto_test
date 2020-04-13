@@ -11,6 +11,7 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Validator\Constraints\Json;
 
 /**
  * Class SubscriptionController
@@ -109,5 +110,26 @@ class SubscriptionController extends AbstractController
         $subscriptions = $this->getDoctrine()->getRepository(Subscription::class)->findAll();
 
         return new JsonResponse($this->carPostSerializer->getSerializer()->normalize($subscriptions, null, $this->subscriptionSerializable));
+    }
+
+    /**
+     * @Route(
+     *     "/subscription/remove/{subscriptionId}",
+     *     requirements={"subscriptionId"="\d+"}
+     * )
+     *
+     * @param int $subscriptionId
+     *
+     * @return JsonResponse
+     */
+    public function remove(int $subscriptionId): JsonResponse
+    {
+        $subscription = $this->getDoctrine()->getRepository(Subscription::class)->find($subscriptionId);
+
+        $em = $this->getDoctrine()->getManager();
+        $em->remove($subscription);
+        $em->flush();
+
+        return new JsonResponse(array('result' => true));
     }
 }
