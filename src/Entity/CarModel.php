@@ -54,6 +54,14 @@ class CarModel implements VehicleModelInterface
     private $generations;
 
     /**
+     * @return string
+     */
+    public function __toString(): string
+    {
+        return (string) $this->name;
+    }
+
+    /**
      * @return int
      */
     public function getId(): ?int

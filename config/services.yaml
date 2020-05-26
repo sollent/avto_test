@@ -91,3 +91,9 @@ services:
 
     App\Service\Delivery\TelegramNotificationService:
         arguments: ['%env(TELEGRAM_BOT_KEY)%', '%env(TELEGRAM_CHAT_ID)%']
+
+    App\MessageHandler\CarGalleryMessageHandler:
+        calls:
+            - method: setDependencies
+              arguments:
+                  - '@car_uploader_service'

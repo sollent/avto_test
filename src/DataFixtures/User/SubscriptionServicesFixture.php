@@ -23,6 +23,7 @@ class SubscriptionServicesFixture extends Fixture
 {
     /**
      * @inheritDoc
+     *
      * @throws \ReflectionException
      */
     public function load(ObjectManager $manager)

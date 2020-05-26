@@ -226,6 +226,14 @@ class CarInfo
     private $city;
 
     /**
+     * @return string
+     */
+    public function __toString(): string
+    {
+        return "";
+    }
+
+    /**
      * @return int
      */
     public function getId(): ?int

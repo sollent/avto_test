@@ -17,4 +17,5 @@ return [
     Nzo\FileDownloaderBundle\NzoFileDownloaderBundle::class => ['all' => true],
     Doctrine\Bundle\FixturesBundle\DoctrineFixturesBundle::class => ['dev' => true, 'test' => true],
     Borsaco\TelegramBotApiBundle\TelegramBotApiBundle::class => ['all' => true],
+    EasyCorp\Bundle\EasyAdminBundle\EasyAdminBundle::class => ['all' => true],
 ];

@@ -12,12 +12,14 @@ use App\Entity\CarModel;
 use App\Entity\CarPost;
 use App\Entity\CarPrice;
 use App\Entity\CarTransmission;
+use App\Message\CarGalleryMessage;
 use App\Repository\CarBodyTypeRepository;
 use App\Repository\CarEngineTypeRepository;
 use App\Repository\CarShapeRepository;
 use App\Service\UploaderService\UploaderServiceInterface;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
+use Symfony\Component\Messenger\MessageBusInterface;
 
 /**
  * Class CarPostService
@@ -51,6 +53,11 @@ class CarPostService
     private $carShapeRepository;
 
     /**
+     * @var MessageBusInterface
+     */
+    private $messageBus;
+
+    /**
      * @var UploaderServiceInterface
      */
     private $uploaderService;
@@ -79,20 +86,21 @@ class CarPostService
      * @param CarEngineTypeRepository $carEngineTypeRepository
      * @param CarBodyTypeRepository $carBodyTypeRepository
      * @param CarShapeRepository $carShapeRepository
-     * @param UploaderServiceInterface $uploaderService
-     * @param UploaderServiceInterface $carUploaderService
+     * @param MessageBusInterface $messageBus
      */
     public function __construct(
         EntityManagerInterface $em,
         CarEngineTypeRepository $carEngineTypeRepository,
         CarBodyTypeRepository $carBodyTypeRepository,
-        CarShapeRepository $carShapeRepository
+        CarShapeRepository $carShapeRepository,
+        MessageBusInterface $messageBus
     )
     {
         $this->em = $em;
         $this->carEngineTypeRepository = $carEngineTypeRepository;
         $this->carBodyTypeRepository = $carBodyTypeRepository;
         $this->carShapeRepository = $carShapeRepository;
+        $this->messageBus = $messageBus;
     }
 
     /**
@@ -210,6 +218,10 @@ class CarPostService
                     file_get_contents($carPost->getPreviewImageLink())
                 );
                 $carPost->setPreviewImage($filename);
+            }
+
+            if (\count($carPost->getImagesLinks()) > 0) {
+                $this->messageBus->dispatch(new CarGalleryMessage($carPost->getId(), $carPost->getImagesLinks()));
             }
         }
 

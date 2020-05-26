@@ -41,6 +41,14 @@ class CarMark implements VehicleMarkInterface
     /**
      * @return string
      */
+    public function __toString(): string
+    {
+        return (string) $this->name;
+    }
+
+    /**
+     * @return string
+     */
     public function getNameFromLink(): ?string
     {
         return $this->nameFromLink;

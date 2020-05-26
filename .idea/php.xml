@@ -156,6 +156,9 @@
       <path value="$PROJECT_DIR$/vendor/begateway/begateway-api-php" />
       <path value="$PROJECT_DIR$/vendor/pusher/pusher-push-notifications" />
       <path value="$PROJECT_DIR$/vendor/firebase/php-jwt" />
+      <path value="$PROJECT_DIR$/vendor/pagerfanta/pagerfanta" />
+      <path value="$PROJECT_DIR$/vendor/easycorp/easyadmin-bundle" />
+      <path value="$PROJECT_DIR$/vendor/symfony/messenger" />
     </include_path>
   </component>
   <component name="PhpProjectSharedConfiguration" php_language_level="7.3" />

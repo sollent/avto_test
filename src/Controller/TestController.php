@@ -243,6 +243,8 @@ class TestController extends AbstractController
      *
      * @return JsonResponse
      * @throws ExceptionInterface
+     * @throws \Doctrine\ORM\NoResultException
+     * @throws \Doctrine\ORM\NonUniqueResultException
      */
     public function filter(Request $request): JsonResponse
     {
