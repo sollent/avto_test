@@ -51,6 +51,9 @@ easy_admin:
         Subscription:
             class: App\Entity\User\Subscription
             label: Подписки
+            list:
+                batch_actions:
+                    - { name: 'delete', label: 'Удалить (навсегда)', ask_confirm: true }
         Admins:
             class: App\Entity\User
             label: Администраторы
