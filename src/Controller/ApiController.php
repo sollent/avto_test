@@ -22,7 +22,7 @@ use Symfony\Component\Validator\Constraints\Json;
  * Class TestController
  * @package App\Controller
  */
-class TestController extends AbstractController
+class ApiController extends AbstractController
 {
     /**
      * @var CarPostSerializer
@@ -133,18 +133,20 @@ class TestController extends AbstractController
     public function showAll()
     {
         /** @var CarPost[] $carPosts */
-        $carPosts = $this->getDoctrine()->getRepository(CarPost::class)->findBy(
+        $carPosts = $this
+            ->getDoctrine()
+            ->getRepository(CarPost::class)->findBy(
             [],
             ['createdAtInSystem' => 'DESC'],
             10
         );
-//        /** @var CarPost[] $carPosts */
-//        $carPosts = $this->getDoctrine()->getRepository(CarPost::class)->findAll();
-
-        $response = new JsonResponse($this->carPostSerializer->getSerializer()->normalize($carPosts, null, $this->carPostAttr));
-
+        $response = new JsonResponse(
+            $this
+                ->carPostSerializer
+                ->getSerializer()
+                ->normalize($carPosts, null, $this->carPostAttr)
+        );
         $response->headers->set('Access-Control-Allow-Origin', '*');
-
         return $response;
     }
 
@@ -179,26 +181,31 @@ class TestController extends AbstractController
      * )
      *
      * @param int $markId
-     *
      * @return JsonResponse
-     *
      * @throws ExceptionInterface
      */
     public function getModels(int $markId): JsonResponse
     {
-        $models = $this->getDoctrine()->getRepository(CarModel::class)->findBy([
-            'mark' => $this->getDoctrine()->getRepository(CarMark::class)->find($markId)
+        $models = $this
+            ->getDoctrine()
+            ->getRepository(CarModel::class)
+            ->findBy([
+            'mark' => $this
+                ->getDoctrine()
+                ->getRepository(CarMark::class)
+                ->find($markId)
         ]);
-
-        $response = new JsonResponse($this->carPostSerializer->getSerializer()->normalize($models, null, [
+        $response = new JsonResponse(
+            $this
+                ->carPostSerializer
+                ->getSerializer()
+                ->normalize($models, null, [
             'attributes' => [
                 'id',
                 'name'
             ]
         ]));
-
         $response->headers->set('Access-Control-Allow-Origin', '*');
-
         return $response;
     }
 
@@ -260,7 +267,11 @@ class TestController extends AbstractController
 
             $carPosts = $this->simpleFilterRepository->filter($filterModel);
 
-            $response = new JsonResponse($this->carPostSerializer->getSerializer()->normalize($carPosts, null, $this->carPostAttr));
+            $response = new JsonResponse(
+                $this
+                    ->carPostSerializer
+                    ->getSerializer()
+                    ->normalize($carPosts, null, $this->carPostAttr));
             $response->headers->set('Access-Control-Allow-Origin', '*');
             return $response;
         }

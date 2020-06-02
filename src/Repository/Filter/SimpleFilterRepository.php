@@ -47,6 +47,8 @@ class SimpleFilterRepository extends ServiceEntityRepository
         }
 
         $queryBuilder->setMaxResults(10);
-        return $count ? $queryBuilder->getQuery()->getSingleScalarResult() : $queryBuilder->getQuery()->getResult();
+        return $count ? $queryBuilder
+            ->getQuery()
+            ->getSingleScalarResult() : $queryBuilder->getQuery()->getResult();
     }
 }

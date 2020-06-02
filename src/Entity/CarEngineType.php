@@ -25,6 +25,11 @@ class CarEngineType
      */
     private $name;
 
+    public function __toString()
+    {
+        return $this->name;
+    }
+
     /**
      * @return int
      */

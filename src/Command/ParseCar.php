@@ -102,7 +102,9 @@ class ParseCar extends Command
         foreach ($this->carPostCrawlerService->getCurrentCarLinks() as $url) {
             $this->browser->get($url)
                 ->then(function (ResponseInterface $response) use ($url) {
-                    $array = $this->carPostCrawlerService->extract((string)$response->getBody(), $url);
+                    $array = $this
+                        ->carPostCrawlerService
+                        ->extract((string)$response->getBody(), $url);
                     $array['link'] = $url;
                     $this->resultCars[] = $array;
                 });

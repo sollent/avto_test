@@ -211,7 +211,6 @@ class CarPostService
     {
         /** @var CarPost $carPost */
         foreach ($carPosts as $carPost) {
-//            $this->uploaderService->uploadOne($carPost, file_get_contents($carPost->getPreviewImageLink()));
             if ($carPost->getPreviewImageLink()) {
                 $filename = $this->carUploaderService->uploadOne(
                     $carPost,
@@ -221,10 +220,13 @@ class CarPostService
             }
 
             if (\count($carPost->getImagesLinks()) > 0) {
-                $this->messageBus->dispatch(new CarGalleryMessage($carPost->getId(), $carPost->getImagesLinks()));
+                $this
+                    ->messageBus
+                    ->dispatch(
+                        new CarGalleryMessage($carPost->getId(), $carPost->getImagesLinks())
+                    );
             }
         }
-
         $this->em->flush();
     }
 
