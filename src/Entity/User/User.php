@@ -33,6 +33,13 @@ class User implements UserInterface
     private $email;
 
     /**
+     * @var string
+     *
+     * @ORM\Column(type="string", nullable=true)
+     */
+    private $password;
+
+    /**
      * @var mixed
      * @ORM\OneToMany(targetEntity="App\Entity\User\SubscriptionServiceItem", mappedBy="user")
      * @ORM\JoinColumn(referencedColumnName="id")
@@ -54,7 +61,6 @@ class User implements UserInterface
     {
         return $this->username;
     }
-
 
 
     /**
@@ -145,7 +151,7 @@ class User implements UserInterface
      */
     public function getRoles()
     {
-        // TODO: Implement getRoles() method.
+        return ['ROLE_USER'];
     }
 
     /**
@@ -158,8 +164,9 @@ class User implements UserInterface
      */
     public function getPassword()
     {
-        // TODO: Implement getPassword() method.
+        return $this->password;
     }
+
 
     /**
      * Returns the salt that was originally used to encode the password.
@@ -194,9 +201,19 @@ class User implements UserInterface
 
     /**
      * @param string $email
+     * @return User
      */
-    public function setEmail(string $email): void
+    public function setEmail(string $email): self
     {
         $this->email = $email;
+        return $this;
+    }
+
+    /**
+     * @param string $password
+     */
+    public function setPassword(string $password): void
+    {
+        $this->password = $password;
     }
 }

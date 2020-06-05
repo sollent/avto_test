@@ -52,7 +52,6 @@ class PushNotificationService implements DeliveryInterface
         $user = $transfer->getUser();
         $subscription = $transfer->getSubscription();
 
-
         $this->pusher->trigger(
             $user->getUsername() . '-' . $user->getId(),
             'new-car',
@@ -70,7 +69,7 @@ class PushNotificationService implements DeliveryInterface
         );
 
         $response = $this->pushNotifications->publishToInterests(
-            array('sollent'),
+            array($transfer->getUser()->getUsername()),
             array(
                 "fcm" => array(
                     "notification" => array(

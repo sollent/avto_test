@@ -11,6 +11,7 @@
         "clue/buzz-react": "^2.6",
         "easycorp/easyadmin-bundle": "^2.3",
         "fabpot/goutte": "^3.2",
+        "lexik/jwt-authentication-bundle": "^2.7",
         "nzo/file-downloader-bundle": "^3.1",
         "pusher/pusher-php-server": "^4.1",
         "pusher/pusher-push-notifications": "^1.1",

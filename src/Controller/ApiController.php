@@ -312,4 +312,26 @@ class ApiController extends AbstractController
 
         return new JsonResponse([], Response::HTTP_BAD_REQUEST);
     }
+
+    /**
+     * @Route(
+     *     "/api/get-user"
+     * )
+     *
+     * @param Request $request
+     *
+     * @return JsonResponse
+     *
+     * @throws ExceptionInterface
+     */
+    public function user(Request $request): JsonResponse
+    {
+        return new JsonResponse($this->carPostSerializer->getSerializer()->normalize($this->getUser(), null, [
+            'attributes' => [
+                'id',
+                'username',
+                'email'
+            ]
+        ]));
+    }
 }

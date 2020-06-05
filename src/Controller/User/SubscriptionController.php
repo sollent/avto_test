@@ -59,7 +59,7 @@ class SubscriptionController extends AbstractController
 
     /**
      * @Route(
-     *     "/subscription/create"
+     *     "/api/subscription/create"
      * )
      *
      * @param Request $request
@@ -80,9 +80,7 @@ class SubscriptionController extends AbstractController
             /** @var Subscription $subscription */
             $subscription = $form->getData();
 
-            $subscription->setUser(
-                $this->getDoctrine()->getRepository(User::class)->findOneBy(['username' => 'sollent'])
-            );
+            $subscription->setUser($this->getUser());
             $subscription->setActive(true);
 
             $em = $this->getDoctrine()->getManager();
@@ -98,7 +96,7 @@ class SubscriptionController extends AbstractController
 
     /**
      * @Route(
-     *     "/subscription/show-all"
+     *     "/api/subscription/show-all"
      * )
      *
      * @return JsonResponse
@@ -107,7 +105,9 @@ class SubscriptionController extends AbstractController
      */
     public function showAll(): JsonResponse
     {
-        $subscriptions = $this->getDoctrine()->getRepository(Subscription::class)->findAll();
+        $subscriptions = $this->getDoctrine()->getRepository(Subscription::class)->findBy([
+            'user' => $this->getUser()
+        ]);
 
         return new JsonResponse($this->carPostSerializer->getSerializer()->normalize($subscriptions, null, $this->subscriptionSerializable));
     }
