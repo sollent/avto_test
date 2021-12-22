@@ -217,6 +217,9 @@
     "paragonie/sodium_compat": {
         "version": "v1.13.0"
     },
+    "php": {
+        "version": "7.3"
+    },
     "phpdocumentor/reflection-common": {
         "version": "2.0.0"
     },
@@ -377,6 +380,9 @@
     "symfony/dotenv": {
         "version": "v4.3.8"
     },
+    "symfony/error-handler": {
+        "version": "v4.4.11"
+    },
     "symfony/event-dispatcher": {
         "version": "v4.3.8"
     },
@@ -513,6 +519,9 @@
     "symfony/polyfill-intl-idn": {
         "version": "v1.12.0"
     },
+    "symfony/polyfill-intl-normalizer": {
+        "version": "v1.18.1"
+    },
     "symfony/polyfill-mbstring": {
         "version": "v1.12.0"
     },
@@ -521,6 +530,9 @@
     },
     "symfony/polyfill-php73": {
         "version": "v1.12.0"
+    },
+    "symfony/polyfill-php80": {
+        "version": "v1.18.1"
     },
     "symfony/process": {
         "version": "v4.3.8"

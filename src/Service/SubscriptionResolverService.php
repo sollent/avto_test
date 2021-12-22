@@ -51,8 +51,10 @@ class SubscriptionResolverService
         );
 
         foreach ($subscriptions as $subscription) {
-            $conditionModel = $subscription->getModel() ? $subscription->getModel()  === $post->getCarInfo()->getModel() : true;
-            $conditionGeneration = $subscription->getGeneration() ? $subscription->getGeneration()  === $post->getCarInfo()->getGeneration() : true;
+            $conditionModel = $subscription->getModel() ? $subscription->getModel()  ===
+                $post->getCarInfo()->getModel() : true;
+            $conditionGeneration = $subscription->getGeneration() ? $subscription->getGeneration() ===
+                $post->getCarInfo()->getGeneration() : true;
             if (
                 ($subscription->getMark() === $post->getCarInfo()->getMark()) &&
                 $conditionModel && $conditionGeneration
